@@ -71,6 +71,9 @@ class PersonaController extends Controller
     public function edit($id)
     {
         //
+        $personas = Persona::find($id);
+        return  view('personas.edit', compact('personas'));
+
     }
 
     /**
@@ -83,6 +86,18 @@ class PersonaController extends Controller
     public function update(Request $request, $id)
     {
         //
+         $this->validate($request, [
+                'nombre' =>'Required',
+                'dni' => 'Required',
+                'edad' => 'Required'
+
+            ]);
+
+         $personas = Persona::find($id);
+         $personasUpdate = $request->all();
+         $personas->update($personasUpdate);
+         return redirect('personas');
+
     }
 
     /**
@@ -94,5 +109,8 @@ class PersonaController extends Controller
     public function destroy($id)
     {
         //
+        $personas = Persona::find($id);
+        $personas->delete();
+        return redirect('personas');
     }
 }
